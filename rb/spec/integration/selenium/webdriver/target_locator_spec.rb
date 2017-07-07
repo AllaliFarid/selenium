@@ -169,8 +169,7 @@ module Selenium
           expect(driver.title).to eq('We Arrive Here')
         end
 
-        # https://github.com/SeleniumHQ/selenium/issues/3339
-        it 'should iterate over open windows when current window is closed', except: {driver: :remote} do
+        it 'should iterate over open windows when current window is closed' do
           driver.navigate.to url_for('xhtmlTest.html')
           wait_for_element(link: 'Create a new anonymous window')
           driver.find_element(link: 'Create a new anonymous window').click
@@ -191,8 +190,7 @@ module Selenium
         end
       end
 
-      # https://github.com/SeleniumHQ/selenium/issues/3339
-      it 'should switch to a window and execute a block when current window is closed', except: [{browser: :safari}, {driver: :remote}] do
+      it 'should switch to a window and execute a block when current window is closed', except: {browser: :safari} do
         driver.navigate.to url_for('xhtmlTest.html')
         driver.find_element(link: 'Open new window').click
         wait.until { driver.window_handles.size == 2 }
