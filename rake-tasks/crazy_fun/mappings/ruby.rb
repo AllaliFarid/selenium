@@ -104,7 +104,7 @@ class RubyMappings
         ruby :include => args[:include],
              :require => args[:require],
              :command => args[:command],
-             :args    => %w[--format doc --color] + (!!ENV['example'] ? ['--example', ENV['example']] : []),
+             :args    => %w[--color] + (!!ENV['example'] ? ['--example', ENV['example']] : []),
              :debug   => !!ENV['log'],
              :files   => args[:srcs],
              :gemfile => "build/rb/Gemfile"
