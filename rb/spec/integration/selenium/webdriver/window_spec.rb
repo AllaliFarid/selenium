@@ -107,8 +107,7 @@ module Selenium
       end
 
       # TODO: - Create Window Manager guard
-      # Geckodriver issue: https://github.com/mozilla/geckodriver/issues/820
-      it 'can maximize the current window', except: [{platform: :linux}, {browser: %i[safari firefox]}] do
+      it 'can maximize the current window', except: [{platform: :linux}, {browser: :safari}] do
         window.size = old_size = Dimension.new(200, 200)
 
         window.maximize

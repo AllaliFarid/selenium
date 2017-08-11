@@ -21,8 +21,7 @@ require_relative 'spec_helper'
 
 module Selenium
   module WebDriver
-    # https://github.com/mozilla/geckodriver/issues/800
-    describe Timeouts, except: {browser: :ff_nightly} do
+    describe Timeouts do
       context 'implicit waits' do
         before do
           driver.manage.timeouts.implicit_wait = 0

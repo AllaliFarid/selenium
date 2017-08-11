@@ -80,8 +80,7 @@ module Selenium
           expect(input.attribute(:value)).to eq('abcddcba')
         end
 
-        # Certain non-ASCII keys are not working in Firefox yet (known but un-filed bug)
-        it 'can send non-ascii keys', except: {driver: %i[firefox ff_nightly]} do
+        it 'can send non-ASCII keys' do
           driver.navigate.to url_for('formPage.html')
 
           input = driver.find_element(css: '#working')
