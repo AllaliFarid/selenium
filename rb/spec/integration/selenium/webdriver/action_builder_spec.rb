@@ -22,6 +22,8 @@ require_relative 'spec_helper'
 module Selenium
   module WebDriver
     describe ActionBuilder, except: [{browser: :safari}, {browser: %i[firefox ff_nightly], driver: :remote}] do
+      after { reset_driver! }
+
       describe 'Key actions' do
         it 'sends keys to the active element' do
           driver.navigate.to url_for('bodyTypingTest.html')
