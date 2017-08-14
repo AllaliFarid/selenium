@@ -22,6 +22,8 @@ require_relative 'spec_helper'
 module Selenium
   module WebDriver
     describe W3CActionBuilder, only: {driver: :ff_nightly} do
+      after { reset_driver! }
+
       describe 'Key actions' do
         it 'can release pressed keys via release action' do
           driver.navigate.to url_for('javascriptPage.html')

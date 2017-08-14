@@ -23,6 +23,8 @@ module Selenium
   module WebDriver
     # Firefox - "Actions Endpoint Not Yet Implemented"
     describe Keyboard, except: {browser: %i[safari ff_nightly firefox ie]} do
+      after { reset_driver! }
+
       # Edge - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/8339952
       it 'sends keys to the active element', except: {browser: :edge} do
         driver.navigate.to url_for('bodyTypingTest.html')
