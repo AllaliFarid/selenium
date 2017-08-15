@@ -22,7 +22,7 @@ require_relative 'spec_helper'
 module Selenium
   module WebDriver
     describe ActionBuilder, except: [{browser: :safari}, {browser: %i[firefox ff_nightly], driver: :remote}] do
-      after { reset_driver! }
+      after { driver.action.instance_variable_set(:@actions, []) }
 
       describe 'Key actions' do
         it 'sends keys to the active element' do

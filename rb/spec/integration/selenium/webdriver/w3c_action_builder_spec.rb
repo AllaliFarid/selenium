@@ -22,7 +22,7 @@ require_relative 'spec_helper'
 module Selenium
   module WebDriver
     describe W3CActionBuilder, only: {driver: :ff_nightly} do
-      after { reset_driver! }
+      after { driver.action.instance_variable_set(:@actions, []) }
 
       describe 'Key actions' do
         it 'can release pressed keys via release action' do
