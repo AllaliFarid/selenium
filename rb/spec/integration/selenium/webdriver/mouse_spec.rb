@@ -23,7 +23,7 @@ module Selenium
   module WebDriver
     # Firefox - "Actions Endpoint Not Yet Implemented"
     describe Mouse, except: {browser: %i[safari ff_nightly firefox ie]} do
-      after { driver.action.instance_variable_set(:@actions, []) }
+      after { reset_driver! }
 
       it 'clicks an element' do
         driver.navigate.to url_for('formPage.html')
