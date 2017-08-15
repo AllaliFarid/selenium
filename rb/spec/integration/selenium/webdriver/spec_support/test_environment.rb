@@ -52,13 +52,13 @@ module Selenium
         end
 
         def driver_instance
-          @driver_instance ||= new_driver_instance
+          @driver_instance ||= create_driver!
         end
 
         def reset_driver!(time = 0)
           quit_driver
           sleep time
-          @driver_instance = new_driver_instance
+          @driver_instance = create_driver!
         end
 
         def ensure_single_window
@@ -73,11 +73,6 @@ module Selenium
           return unless @driver_instance
           @driver_instance.quit
           @driver_instance = nil
-        end
-
-        def new_driver_instance
-          check_for_previous_error
-          create_driver
         end
 
         def app_server
@@ -175,6 +170,28 @@ module Selenium
           caps
         end
 
+        def create_driver!(**opts, &block)
+          check_for_previous_error
+
+          method = "create_#{driver}_driver".to_sym
+          instance = if private_methods.include?(method)
+                       send method, opts
+                     else
+                       WebDriver::Driver.for(driver, opts)
+                     end
+          @create_driver_error_count -= 1 unless @create_driver_error_count == 0
+          if block
+            yield
+            instance.quit
+          else
+            instance
+          end
+        rescue => ex
+          @create_driver_error = ex
+          @create_driver_error_count += 1
+          raise ex
+        end
+
         private
 
         def current_env
@@ -185,21 +202,6 @@ module Selenium
             native: native_events?,
             ci: Platform.ci
           }
-        end
-
-        def create_driver(opt = {})
-          method = "create_#{driver}_driver".to_sym
-          instance = if private_methods.include?(method)
-                       send method, opt
-                     else
-                       WebDriver::Driver.for(driver, opt)
-                     end
-          @create_driver_error_count -= 1 unless @create_driver_error_count == 0
-          instance
-        rescue => ex
-          @create_driver_error = ex
-          @create_driver_error_count += 1
-          raise ex
         end
 
         MAX_ERRORS = 4

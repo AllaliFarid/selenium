@@ -35,11 +35,11 @@ module Selenium
           file = File.expand_path('../sample.crx', __FILE__)
           profile.add_extension(file)
 
-          driver = Selenium::WebDriver.for GlobalTestEnv.browser, profile: profile
-          driver.navigate.to url_for('xhtmlTest.html')
-          expect('verify manually - home button displayed')
-          expect('verify manually - make page red extension properly installed')
-          driver.quit
+          create_driver!(profile: profile) do
+            driver.navigate.to url_for('xhtmlTest.html')
+            expect('verify manually - home button displayed')
+            expect('verify manually - make page red extension properly installed')
+          end
         end
 
         it 'adds an extension' do

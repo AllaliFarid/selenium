@@ -26,36 +26,27 @@ module Selenium
         it 'passes emulated device correctly' do
           subject.add_emulation(device_name: 'Nexus 5')
 
-          begin
-            driver = Selenium::WebDriver.for(GlobalTestEnv.browser, options: subject)
+          create_driver!(options: subject) do
             ua = driver.execute_script 'return window.navigator.userAgent'
             expect(ua).to include('Nexus 5')
-          ensure
-            driver.quit if driver
           end
         end
 
         it 'passes emulated user agent correctly' do
           subject.add_emulation(user_agent: 'foo;bar')
 
-          begin
-            driver = Selenium::WebDriver.for(GlobalTestEnv.browser, options: subject)
+          create_driver!(options: subject) do
             ua = driver.execute_script 'return window.navigator.userAgent'
             expect(ua).to eq('foo;bar')
-          ensure
-            driver.quit if driver
           end
         end
 
         it 'passes args correctly' do
           subject.add_argument('--user-agent=foo;bar')
 
-          begin
-            driver = Selenium::WebDriver.for(GlobalTestEnv.browser, options: subject)
+          create_driver!(options: subject) do
             ua = driver.execute_script 'return window.navigator.userAgent'
             expect(ua).to eq('foo;bar')
-          ensure
-            driver.quit if driver
           end
         end
       end
